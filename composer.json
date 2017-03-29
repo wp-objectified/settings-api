@@ -1,0 +1,29 @@
+{
+    "name": "xemlock/wp-settings-api",
+    "description": "OOP interface to WordPress Settings API",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "xemlock",
+            "email": "xemlock@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^0.11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "wpSettingsApi\\": "includes/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": "@phpcs-install",
+        "post-update-cmd": "@phpcs-install",
+        "phpcs-install": "@php vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",
+        "phpcs": "phpcs --standard=phpcs.xml includes/"
+    }
+}
