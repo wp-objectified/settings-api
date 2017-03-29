@@ -24,6 +24,7 @@
         "post-install-cmd": "@phpcs-install",
         "post-update-cmd": "@phpcs-install",
         "phpcs-install": "@php vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",
-        "phpcs": "phpcs --standard=phpcs.xml includes/"
+        "phpcs": "phpcs --standard=phpcs.xml includes/",
+        "phpcbf": "phpcbf --standard=phpcs.xml includes/"
     }
 }
