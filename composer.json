@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "wpSettingsApi\\": "includes/"
+            "WPObjectified\\SettingsAPI\\": "includes/"
         }
     },
     "scripts": {
