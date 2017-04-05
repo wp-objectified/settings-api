@@ -42,6 +42,31 @@ class FieldRenderer {
 		echo $html;
 	}
 
+	// todo
+	public static function show_checkbox_field( array $args ) {
+		$name        = esc_attr( $args['name'] );
+		$value       = esc_attr( isset($args['value']) ? $args['value'] : 1 );
+		$id          = isset( $args['id'] ) ? esc_attr( $args['id'] ) : '';
+		$choices     = isset($args['choices']) ? (array) $args['choices'] : array('1' => '');
+
+		$html  = '<fieldset>';
+		$html  .= sprintf( '<legend class="screen-reader-text">%s</legend>', $args['label']);
+
+		foreach ($choices as $choice_value => $choice_label ) {
+			$html  .= sprintf( '<label for="%1$s">', $id );
+			$html  .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s" name="%2$s" value="1" %3$s />', $id, $name, checked( $value, $choice_value, false ) );
+			$html  .= sprintf( '%1$s</label>', $choice_label );
+			break;
+		}
+
+		$html .= self::render_field_errors( $args );
+		$html .= self::render_field_description( $args );
+
+		$html  .= '</fieldset>';
+
+		echo $html;
+	}
+
 	public static function show_select_field( array $args ) {
 		$name  = esc_attr( $args['name'] );
 		$value = esc_attr( $args['value'] );

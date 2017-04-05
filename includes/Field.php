@@ -85,11 +85,14 @@ class Field {
 		$this->ignore            = $ignore;
 		$this->default           = isset( $options['default'] ) ? $options['default'] : '';
 
+		$id = isset( $options['id'] ) ? $options['id'] : "{$section}-{$name}";
+
 		$this->args = array_merge($options, array(
-			'section' => $section,
-			'type'    => $type,
-			'name'    => "{$section}[{$name}]",
-			'id'      => isset( $options['id'] ) ? $options['id'] : "{$section}-{$name}",
+			'section'   => $section,
+			'type'      => $type,
+			'name'      => "{$section}[{$name}]",
+			'id'        => $id,
+			'label_for' => $id,
 		));
 	}
 
