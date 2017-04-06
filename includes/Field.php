@@ -26,7 +26,7 @@ class Field {
 	/**
 	 * @var callable
 	 */
-	protected $render_callback;
+	protected $display_callback;
 
 	/**
 	 * @var callable
@@ -60,13 +60,13 @@ class Field {
 		$name = $options['name'];
 		$type = isset( $options['type'] ) ? $options['type'] : 'text';
 
-		$render_callback = Utils::check_callback(
-			isset( $options['render_callback'] ) ? $options['render_callback'] : array( 'WPObjectified\SettingsAPI\FieldRenderer', 'show_' . $type . '_field' )
+		$display_callback = Utils::check_callback(
+			isset( $options['display_callback'] ) ? $options['display_callback'] : array( 'WPObjectified\SettingsAPI\FieldRenderer', 'show_' . $type . '_field' )
 		);
-		if ( empty( $render_callback ) ) {
-			$render_callback = array( 'WPObjectified\SettingsAPI\FieldRenderer', 'show_text_field' );
+		if ( empty( $display_callback ) ) {
+			$display_callback = array( 'WPObjectified\SettingsAPI\FieldRenderer', 'show_text_field' );
 		}
-		unset( $options['render_callback'] );
+		unset( $options['display_callback'] );
 
 		$sanitize_callback = Utils::check_callback(
 			isset( $options['sanitize_callback'] ) ? $options['sanitize_callback'] : null
@@ -80,7 +80,7 @@ class Field {
 		$this->section           = $section;
 		$this->name              = $name;
 		$this->label             = isset( $options['label'] ) ? $options['label'] : '';
-		$this->render_callback   = $render_callback;
+		$this->display_callback  = $display_callback;
 		$this->sanitize_callback = $sanitize_callback;
 		$this->ignore            = $ignore;
 		$this->default           = isset( $options['default'] ) ? $options['default'] : '';
@@ -100,11 +100,11 @@ class Field {
 	 * @param array $args
 	 * @return mixed
 	 */
-	public function render( array $args ) {
+	public function display( array $args ) {
 		$args['value']  = $this->get_value();
 		$args['errors'] = $this->get_errors();
 
-		return call_user_func( $this->render_callback, $args );
+		return call_user_func( $this->display_callback, $args );
 	}
 
 	/**
@@ -223,7 +223,7 @@ class Field {
 	 * @return void
 	 */
 	public function register() {
-		add_settings_field( $this->name, $this->label, array( $this, 'render' ), $this->page, $this->section, $this->args );
+		add_settings_field( $this->name, $this->label, array( $this, 'display' ), $this->page, $this->section, $this->args );
 	}
 
 	/**

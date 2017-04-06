@@ -21,7 +21,7 @@ class Section {
 	/**
 	 * @var callable
 	 */
-	protected $render_callback;
+	protected $display_callback;
 
 	/**
 	 * @var callable
@@ -58,8 +58,8 @@ class Section {
 			$this->set_fields( $options['fields'] );
 		}
 
-		if ( isset( $options['render_callback'] ) ) {
-			$this->render_callback = Utils::check_callback( $options['render_callback'] );
+		if ( isset( $options['display_callback'] ) ) {
+			$this->display_callback = Utils::check_callback( $options['display_callback'] );
 		}
 
 		if ( isset( $options['sanitize_callback'] ) ) {
@@ -70,7 +70,7 @@ class Section {
 			$options['name'],
 			$options['title'],
 			$options['fields'],
-			$options['render_callback'],
+			$options['display_callback'],
 			$options['sanitize_callback']
 		);
 
@@ -212,7 +212,7 @@ class Section {
 	 * @return void
 	 */
 	public function register() {
-		add_settings_section( $this->name, $this->title, $this->render_callback, $this->page );
+		add_settings_section( $this->name, $this->title, $this->display_callback, $this->page );
 
 		foreach ( $this->fields as $field ) {
 			$field->register();
