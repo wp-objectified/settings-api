@@ -22,6 +22,24 @@ class FieldRenderer {
 		echo $html;
 	}
 
+	public static function show_textarea_field( array $args ) {
+		$name        = esc_attr( $args['name'] );
+		$value       = esc_textarea( $args['value'] );
+		$id          = isset( $args['id'] ) ? esc_attr( $args['id'] ) : '';
+		$size        = isset( $args['size'] ) ? esc_attr( $args['size'] ) : 'regular';
+		$placeholder = isset( $args['placeholder'] ) ? ' placeholder="' . esc_attr( $args['placeholder'] ) . '"' : '';
+
+		$rows        = isset( $args['rows'] ) ? esc_attr($args['rows']) : 5;
+		$cols        = isset( $args['cols'] ) ? esc_attr($args['cols']) : 55;
+
+		$html        = sprintf( '<textarea rows="%1$s" cols="%2$s" class="%3$s-text" id="%4$s" name="%5$s"%6$s>%7$s</textarea>', $rows, $cols, $size, $id, $name, $placeholder, $value );
+
+		$html .= self::render_field_errors( $args );
+		$html .= self::render_field_description( $args );
+
+		echo $html;
+	}
+
 	public static function show_number_field( array $args ) {
 		$name        = esc_attr( $args['name'] );
 		$value       = esc_attr( $args['value'] );
@@ -42,7 +60,6 @@ class FieldRenderer {
 		echo $html;
 	}
 
-	// todo
 	public static function show_checkbox_field( array $args ) {
 		$name        = esc_attr( $args['name'] );
 		$value       = esc_attr( isset($args['value']) ? $args['value'] : 1 );
