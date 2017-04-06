@@ -60,11 +60,11 @@ class Field {
 		$name = $options['name'];
 		$type = isset( $options['type'] ) ? $options['type'] : 'text';
 
-		$display_callback = Utils::check_callback(
-			isset( $options['display_callback'] ) ? $options['display_callback'] : array( 'WPObjectified\SettingsAPI\FieldRenderer', 'show_' . $type . '_field' )
-		);
+		if ( isset( $options['display_callback'] ) ) {
+			$display_callback = Utils::check_callback( $options['display_callback'] );
+		}
 		if ( empty( $display_callback ) ) {
-			$display_callback = array( 'WPObjectified\SettingsAPI\FieldRenderer', 'show_text_field' );
+			$display_callback = array( 'WPObjectified\SettingsAPI\FieldRenderer', 'show_field' );
 		}
 		unset( $options['display_callback'] );
 

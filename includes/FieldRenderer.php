@@ -6,6 +6,17 @@ namespace WPObjectified\SettingsAPI;
  * @todo This class is likely to be moved to a separate package
  */
 class FieldRenderer {
+	public static function show_field( array $args ) {
+		$type = isset( $args['type'] ) ? $args['type'] : 'text';
+		$callback = Utils::check_callback( array( __CLASS__, 'show_' . $type . '_field' ) );
+
+		if ( empty( $callback ) ) {
+			$callback = array( __CLASS__, 'show_text_field' );
+		}
+
+		call_user_func( $callback, $args );
+	}
+
 	public static function show_text_field( array $args ) {
 		$name        = esc_attr( $args['name'] );
 		$value       = esc_attr( $args['value'] );
@@ -29,8 +40,8 @@ class FieldRenderer {
 		$size        = isset( $args['size'] ) ? esc_attr( $args['size'] ) : 'regular';
 		$placeholder = isset( $args['placeholder'] ) ? ' placeholder="' . esc_attr( $args['placeholder'] ) . '"' : '';
 
-		$rows        = isset( $args['rows'] ) ? esc_attr($args['rows']) : 5;
-		$cols        = isset( $args['cols'] ) ? esc_attr($args['cols']) : 55;
+		$rows        = isset( $args['rows'] ) ? esc_attr( $args['rows'] ) : 5;
+		$cols        = isset( $args['cols'] ) ? esc_attr( $args['cols'] ) : 55;
 
 		$html        = sprintf( '<textarea rows="%1$s" cols="%2$s" class="%3$s-text" id="%4$s" name="%5$s"%6$s>%7$s</textarea>', $rows, $cols, $size, $id, $name, $placeholder, $value );
 
@@ -62,14 +73,16 @@ class FieldRenderer {
 
 	public static function show_checkbox_field( array $args ) {
 		$name        = esc_attr( $args['name'] );
-		$value       = esc_attr( isset($args['value']) ? $args['value'] : 1 );
+		$value       = esc_attr( isset( $args['value'] ) ? $args['value'] : 1 );
 		$id          = isset( $args['id'] ) ? esc_attr( $args['id'] ) : '';
-		$choices     = isset($args['choices']) ? (array) $args['choices'] : array('1' => '');
+		$choices     = isset( $args['choices'] ) ? (array) $args['choices'] : array(
+			'1' => '',
+		);
 
 		$html  = '<fieldset>';
-		$html  .= sprintf( '<legend class="screen-reader-text">%s</legend>', $args['label']);
+		$html  .= sprintf( '<legend class="screen-reader-text">%s</legend>', $args['label'] );
 
-		foreach ($choices as $choice_value => $choice_label ) {
+		foreach ( $choices as $choice_value => $choice_label ) {
 			$html  .= sprintf( '<label for="%1$s">', $id );
 			$html  .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s" name="%2$s" value="1" %3$s />', $id, $name, checked( $value, $choice_value, false ) );
 			$html  .= sprintf( '%1$s</label>', $choice_label );
